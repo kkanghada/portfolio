@@ -1,0 +1,81 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>비용 등록 | 비용 등록 관리</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <header class="site-header compact">
+    <div class="brand">
+      <div class="logo">EX</div>
+      <div>
+        <div class="title">비용 등록</div>
+        <div class="subtitle">영수증 첨부 필수</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">홈</a>
+      <a href="admin-settings.html">관리자 설정</a>
+      <a href="expense-list.html">비용 목록</a>
+      <a href="my-expenses.html">내 등록</a>
+      <a href="sitemap.html">사이트맵</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="panel form">
+      <h1>신규 비용 등록</h1>
+      <p class="muted">등록 가능 기간 내에서만 저장됩니다.</p>
+
+      <div class="form-grid">
+        <label>
+          비용
+          <input type="number" placeholder="예: 35000" />
+        </label>
+        <label>
+          등록일자
+          <input type="date" value="2026-02-09" />
+        </label>
+        <label class="full">
+          내용
+          <textarea rows="4" placeholder="사용 목적과 상세 내용을 입력하세요"></textarea>
+        </label>
+        <label>
+          등록자
+          <input type="text" value="홍길동" disabled />
+        </label>
+        <label>
+          영수증
+          <input type="file" />
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary">등록</button>
+        <button class="btn ghost">임시 저장</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>등록 가능 기간</h2>
+      <div class="kv">
+        <div class="k">시작일</div>
+        <div class="v">2026-02-01</div>
+      </div>
+      <div class="kv">
+        <div class="k">종료일</div>
+        <div class="v">2026-02-29</div>
+      </div>
+      <div class="status open">열림</div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>등록자는 본인 건만 수정/삭제 가능</div>
+  </footer>
+</body>
+</html>
+

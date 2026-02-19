@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>출결관리 시트</title>
+  <style>
+    :root {
+      --grid: #cfd4dc;
+      --head: #eceff3;
+      --subhead: #e3e7ed;
+      --text: #242a33;
+      --ok: #eceff2;
+      --late: #e7ebf0;
+      --absent: #dde3ea;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Malgun Gothic", "Segoe UI", sans-serif;
+      color: var(--text);
+      background: #eef1f5;
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 12px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .toolbar input,
+    .toolbar select,
+    .toolbar button {
+      height: 34px;
+      border: 1px solid #b9c0cb;
+      background: #fff;
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 13px;
+    }
+
+    .toolbar button {
+      background: #4b5563;
+      border-color: #4b5563;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .sheet-wrap {
+      border: 1px solid var(--grid);
+      background: #fff;
+      overflow: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 1100px;
+      table-layout: fixed;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid var(--grid);
+      padding: 8px 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 36px;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--head);
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .row-no {
+      width: 52px;
+      background: var(--subhead);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .name { width: 120px; }
+    .class { width: 90px; text-align: center; }
+    .date { width: 100px; text-align: center; }
+    .status { width: 90px; text-align: center; font-weight: 700; }
+    .memo { width: 300px; }
+
+    .ok { background: var(--ok); color: #3f4652; }
+    .late { background: var(--late); color: #303845; }
+    .absent { background: var(--absent); color: #1f2733; }
+
+    .sum {
+      margin-top: 10px;
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .chip {
+      border: 1px solid #bcc3ce;
+      background: #fff;
+      border-radius: 999px;
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1 class="title">출결관리 (Excel Style)</h1>
+
+    <div class="toolbar">
+      <input type="month" value="2026-02" />
+      <select>
+        <option>전체 반</option>
+        <option>초급 A</option>
+        <option>중급 B</option>
+        <option>고급 C</option>
+      </select>
+      <input type="text" placeholder="이름 검색" />
+      <button type="button">조회</button>
+      <button type="button" style="background:#6b7280; border-color:#6b7280;">엑셀 다운로드</button>
+    </div>
+
+    <div class="sheet-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="row-no">No</th>
+            <th class="name">이름</th>
+            <th class="class">반</th>
+            <th class="date">날짜</th>
+            <th class="status">출결</th>
+            <th class="memo">메모</th>
+            <th class="date">입실</th>
+            <th class="date">퇴실</th>
+            <th class="status">지각(분)</th>
+            <th class="status">조퇴</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-no">1</td>
+            <td>김민준</td>
+            <td class="class">초급 A</td>
+            <td class="date">2026-02-11</td>
+            <td class="status ok">출석</td>
+            <td class="memo">정시 등원</td>
+            <td class="date">09:00</td>
+            <td class="date">12:00</td>
+            <td class="status">0</td>
+            <td class="status">-</td>
+          </tr>
+          <tr>
+            <td class="row-no">2</td>
+            <td>이서연</td>
+            <td class="class">초급 A</td>
+            <td class="date">2026-02-11</td>
+            <td class="status late">지각</td>
+            <td class="memo">교통 체증으로 12분 지각</td>
+            <td class="date">09:12</td>
+            <td class="date">12:00</td>
+            <td class="status">12</td>
+            <td class="status">-</td>
+          </tr>
+          <tr>
+            <td class="row-no">3</td>
+            <td>박지후</td>
+            <td class="class">중급 B</td>
+            <td class="date">2026-02-11</td>
+            <td class="status absent">결석</td>
+            <td class="memo">가정 사유</td>
+            <td class="date">-</td>
+            <td class="date">-</td>
+            <td class="status">-</td>
+            <td class="status">-</td>
+          </tr>
+          <tr>
+            <td class="row-no">4</td>
+            <td>최하윤</td>
+            <td class="class">중급 B</td>
+            <td class="date">2026-02-11</td>
+            <td class="status ok">출석</td>
+            <td class="memo">집중도 양호</td>
+            <td class="date">08:58</td>
+            <td class="date">12:00</td>
+            <td class="status">0</td>
+            <td class="status">-</td>
+          </tr>
+          <tr>
+            <td class="row-no">5</td>
+            <td>정도윤</td>
+            <td class="class">고급 C</td>
+            <td class="date">2026-02-11</td>
+            <td class="status late">지각</td>
+            <td class="memo">병원 방문 후 입실</td>
+            <td class="date">09:20</td>
+            <td class="date">12:00</td>
+            <td class="status">20</td>
+            <td class="status">-</td>
+          </tr>
+          <tr>
+            <td class="row-no">6</td>
+            <td>윤지아</td>
+            <td class="class">고급 C</td>
+            <td class="date">2026-02-11</td>
+            <td class="status ok">출석</td>
+            <td class="memo">발표 수업 참여</td>
+            <td class="date">08:55</td>
+            <td class="date">12:00</td>
+            <td class="status">0</td>
+            <td class="status">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sum">
+      <div class="chip">총원 6명</div>
+      <div class="chip">출석 4명</div>
+      <div class="chip">지각 2명</div>
+      <div class="chip">결석 1명</div>
+    </div>
+  </div>
+</body>
+</html>

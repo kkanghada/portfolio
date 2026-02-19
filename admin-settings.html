@@ -1,0 +1,70 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>관리자 설정 | 비용 등록 관리</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <header class="site-header compact">
+    <div class="brand">
+      <div class="logo">EX</div>
+      <div>
+        <div class="title">관리자 설정</div>
+        <div class="subtitle">등록 가능 기간 지정</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">홈</a>
+      <a href="expense-create.html">비용 등록</a>
+      <a href="expense-list.html">비용 목록</a>
+      <a href="my-expenses.html">내 등록</a>
+      <a href="sitemap.html">사이트맵</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="panel form">
+      <h1>등록 가능 기간 설정</h1>
+      <p class="muted">기간 내에서만 등록/수정이 가능합니다. 마감 후에는 등록 불가.</p>
+
+      <div class="form-grid">
+        <label>
+          시작일
+          <input type="date" value="2026-02-01" />
+        </label>
+        <label>
+          종료일
+          <input type="date" value="2026-02-29" />
+        </label>
+        <label>
+          상태
+          <input type="text" value="열림" disabled />
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary">저장</button>
+        <button class="btn ghost">초기화</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>운영 규칙</h2>
+      <ul class="simple">
+        <li>등록 기간 내에서만 신규 등록 가능</li>
+        <li>등록자는 본인 건만 수정/삭제 가능</li>
+        <li>영수증 첨부는 필수</li>
+        <li>승인/반려 흐름 없음</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>관리자 전용 화면</div>
+  </footer>
+</body>
+</html>
+

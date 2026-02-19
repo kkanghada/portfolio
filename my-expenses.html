@@ -1,0 +1,82 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>내 등록 | 비용 등록 관리</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <header class="site-header compact">
+    <div class="brand">
+      <div class="logo">EX</div>
+      <div>
+        <div class="title">내 등록</div>
+        <div class="subtitle">내가 등록한 비용만 관리</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="index.html">홈</a>
+      <a href="admin-settings.html">관리자 설정</a>
+      <a href="expense-create.html">비용 등록</a>
+      <a href="expense-list.html">비용 목록</a>
+      <a href="sitemap.html">사이트맵</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>비용</th>
+              <th>내용</th>
+              <th>등록일자</th>
+              <th>영수증</th>
+              <th>작업</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>35,000</td>
+              <td>회의실 장비 임차</td>
+              <td>2026-02-05</td>
+              <td>첨부</td>
+              <td>
+                <button class="btn tiny">수정</button>
+                <button class="btn tiny ghost">삭제</button>
+              </td>
+            </tr>
+            <tr>
+              <td>12,500</td>
+              <td>프로젝트 미팅 커피</td>
+              <td>2026-02-08</td>
+              <td>첨부</td>
+              <td>
+                <button class="btn tiny">수정</button>
+                <button class="btn tiny ghost">삭제</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>규칙</h2>
+      <ul class="simple">
+        <li>본인 건만 수정/삭제 가능</li>
+        <li>기간 내에서만 수정/삭제 가능</li>
+        <li>영수증 첨부 필수</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>내 등록 관리 화면</div>
+  </footer>
+</body>
+</html>
+

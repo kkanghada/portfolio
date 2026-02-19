@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비용 관리 시스템</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f3f4f6;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-text h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .header-text p {
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #1f2937;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #374151;
+        }
+
+        .btn-secondary {
+            background-color: #4b5563;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #6b7280;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-card {
+            background-color: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 1.25rem;
+        }
+
+        .summary-card .label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-card .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .summary-card .value.positive {
+            color: #059669;
+        }
+
+        .summary-card .value.negative {
+            color: #dc2626;
+        }
+
+        .table-container {
+            background-color: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #e5e7eb;
+            border-bottom: 1px solid #d1d5db;
+        }
+
+        th {
+            padding: 0.75rem 1.5rem;
+            text-align: left;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        th.center {
+            text-align: center;
+        }
+
+        th.right {
+            text-align: right;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        tbody tr:nth-child(even):hover {
+            background-color: #f3f4f6;
+        }
+
+        td {
+            padding: 1rem 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        td.center {
+            text-align: center;
+        }
+
+        td.right {
+            text-align: right;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-income {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-expense {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 0.25rem;
+            transition: color 0.2s;
+        }
+
+        .delete-btn:hover {
+            color: #ef4444;
+        }
+
+        .table-footer {
+            background-color: #f3f4f6;
+            border-top: 2px solid #9ca3af;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-footer .count {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .table-footer .totals {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .table-footer .totals span {
+            font-weight: bold;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 0.375rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            max-width: 28rem;
+            width: 100%;
+            padding: 1.5rem;
+        }
+
+        .modal-content.large {
+            max-width: 32rem;
+        }
+
+        .modal-content h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #9ca3af;
+            box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-cancel {
+            background-color: white;
+            border: 1px solid #d1d5db;
+            color: #374151;
+        }
+
+        .btn-cancel:hover {
+            background-color: #f9fafb;
+        }
+
+        .btn-submit {
+            background-color: #1f2937;
+            border: none;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #374151;
+        }
+
+        .date-section {
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .date-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .quick-select h3 {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.75rem;
+        }
+
+        .quick-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .quick-buttons button {
+            padding: 0.5rem 0.75rem;
+            background-color: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quick-buttons button:hover {
+            background-color: #f3f4f6;
+        }
+
+        input[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+            cursor: pointer;
+        }
+
+        .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .delete-icon {
+            width: 1rem;
+            height: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-text">
+                <h1>비용 관리 시스템</h1>
+                <p>수입 및 지출 내역 관리</p>
+            </div>
+            <div class="header-buttons">
+                <button class="btn btn-secondary" onclick="openDateModal()">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    등록일자관리
+                </button>
+                <button class="btn btn-primary" onclick="openModal()">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    새 항목
+                </button>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-grid">
+            <div class="summary-card">
+                <div class="label">총 수입</div>
+                <div class="value" id="totalIncome">0원</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">총 지출</div>
+                <div class="value" id="totalExpense">0원</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">잔액</div>
+                <div class="value" id="balance">0원</div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="center" style="width: 3rem;">
+                            <input type="checkbox" id="selectAll" onchange="toggleAllChecks()">
+                        </th>
+                        <th>날짜</th>
+                        <th>구분</th>
+                        <th>카테고리</th>
+                        <th>메모</th>
+                        <th class="right">금액</th>
+                        <th class="center">삭제</th>
+                    </tr>
+                </thead>
+                <tbody id="expenseTableBody">
+                    <!-- Rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+
+            <!-- Table Footer -->
+            <div class="table-footer">
+                <div class="count" id="itemCount">총 0개 항목</div>
+                <div class="totals">
+                    <div>
+                        수입: <span class="positive" id="footerIncome">0원</span>
+                    </div>
+                    <div>
+                        지출: <span id="footerExpense">0원</span>
+                    </div>
+                    <div>
+                        잔액: <span id="footerBalance">0원</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <h2>새 항목 추가</h2>
+            <form onsubmit="addExpense(event)">
+                <div class="form-group">
+                    <label>날짜</label>
+                    <input type="date" id="expenseDate" required>
+                </div>
+                <div class="form-group">
+                    <label>유형</label>
+                    <select id="expenseType">
+                        <option value="expense">지출</option>
+                        <option value="income">수입</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>카테고리</label>
+                    <input type="text" id="expenseCategory" placeholder="예: 식비, 교통비, 급여 등" required>
+                </div>
+                <div class="form-group">
+                    <label>금액</label>
+                    <input type="number" id="expenseAmount" placeholder="금액 입력" required>
+                </div>
+                <div class="form-group">
+                    <label>메모</label>
+                    <input type="text" id="expenseMemo" placeholder="메모 (선택사항)">
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">취소</button>
+                    <button type="submit" class="btn-submit">추가</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Date Management Modal -->
+    <div class="modal" id="dateModal">
+        <div class="modal-content large">
+            <h2>등록일자 관리</h2>
+            <div class="date-section">
+                <div class="date-grid">
+                    <div class="form-group">
+                        <label>시작일</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    <div class="form-group">
+                        <label>종료일</label>
+                        <input type="date" id="endDate">
+                    </div>
+                </div>
+            </div>
+            <div class="date-section quick-select">
+                <h3>빠른 선택</h3>
+                <div class="quick-buttons">
+                    <button onclick="setDateRange('today')">오늘</button>
+                    <button onclick="setDateRange('thisWeek')">이번 주</button>
+                    <button onclick="setDateRange('thisMonth')">이번 달</button>
+                    <button onclick="setDateRange('lastWeek')">지난 주</button>
+                    <button onclick="setDateRange('lastMonth')">지난 달</button>
+                    <button onclick="setDateRange('all')">전체</button>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeDateModal()">취소</button>
+                <button class="btn-submit" onclick="applyDateFilter()">적용</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let expenses = [
+            { id: 1, date: '2026-02-09', category: '식비', amount: 45000, type: 'expense', memo: '점심 회식', checked: false },
+            { id: 2, date: '2026-02-08', category: '교통비', amount: 15000, type: 'expense', memo: '택시', checked: false },
+            { id: 3, date: '2026-02-07', category: '급여', amount: 3000000, type: 'income', memo: '월급', checked: false },
+            { id: 4, date: '2026-02-06', category: '쇼핑', amount: 120000, type: 'expense', memo: '의류 구매', checked: false },
+            { id: 5, date: '2026-02-05', category: '식비', amount: 32000, type: 'expense', memo: '저녁 식사', checked: false },
+            { id: 6, date: '2026-02-04', category: '문화생활', amount: 18000, type: 'expense', memo: '영화 관람', checked: false }
+        ];
+
+        let nextId = 7;
+
+        function formatNumber(num) {
+            return num.toLocaleString('ko-KR') + '원';
+        }
+
+        function updateSummary() {
+            const totalIncome = expenses
+                .filter(e => e.type === 'income')
+                .reduce((sum, e) => sum + e.amount, 0);
+            
+            const totalExpense = expenses
+                .filter(e => e.type === 'expense')
+                .reduce((sum, e) => sum + e.amount, 0);
+            
+            const balance = totalIncome - totalExpense;
+
+            document.getElementById('totalIncome').textContent = formatNumber(totalIncome);
+            document.getElementById('totalExpense').textContent = formatNumber(totalExpense);
+            
+            const balanceEl = document.getElementById('balance');
+            balanceEl.textContent = formatNumber(balance);
+            balanceEl.className = balance >= 0 ? 'value positive' : 'value negative';
+
+            document.getElementById('itemCount').textContent = `총 ${expenses.length}개 항목`;
+            document.getElementById('footerIncome').textContent = formatNumber(totalIncome);
+            document.getElementById('footerExpense').textContent = formatNumber(totalExpense);
+            
+            const footerBalanceEl = document.getElementById('footerBalance');
+            footerBalanceEl.textContent = formatNumber(balance);
+            footerBalanceEl.className = balance >= 0 ? 'positive' : 'negative';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('expenseTableBody');
+            tbody.innerHTML = '';
+
+            expenses.forEach(expense => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="center">
+                        <input type="checkbox" ${expense.checked ? 'checked' : ''} 
+                               onchange="toggleCheck(${expense.id})">
+                    </td>
+                    <td>${expense.date}</td>
+                    <td>
+                        <span class="badge ${expense.type === 'income' ? 'badge-income' : 'badge-expense'}">
+                            ${expense.type === 'income' ? '수입' : '지출'}
+                        </span>
+                    </td>
+                    <td style="font-weight: 500; color: #1f2937;">${expense.category}</td>
+                    <td style="color: #6b7280;">${expense.memo}</td>
+                    <td class="right" style="font-weight: bold; color: ${expense.type === 'income' ? '#059669' : '#1f2937'};">
+                        ${expense.type === 'income' ? '+' : '-'}${formatNumber(expense.amount)}
+                    </td>
+                    <td class="center">
+                        <button class="delete-btn" onclick="deleteExpense(${expense.id})">
+                            <svg class="delete-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updateSummary();
+        }
+
+        function openModal() {
+            document.getElementById('addModal').classList.add('active');
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('expenseDate').value = today;
+        }
+
+        function closeModal() {
+            document.getElementById('addModal').classList.remove('active');
+            document.getElementById('expenseDate').value = '';
+            document.getElementById('expenseCategory').value = '';
+            document.getElementById('expenseAmount').value = '';
+            document.getElementById('expenseMemo').value = '';
+            document.getElementById('expenseType').value = 'expense';
+        }
+
+        function openDateModal() {
+            document.getElementById('dateModal').classList.add('active');
+        }
+
+        function closeDateModal() {
+            document.getElementById('dateModal').classList.remove('active');
+        }
+
+        function addExpense(event) {
+            event.preventDefault();
+            
+            const newExpense = {
+                id: nextId++,
+                date: document.getElementById('expenseDate').value,
+                category: document.getElementById('expenseCategory').value,
+                amount: parseInt(document.getElementById('expenseAmount').value),
+                type: document.getElementById('expenseType').value,
+                memo: document.getElementById('expenseMemo').value || '',
+                checked: false
+            };
+
+            expenses.unshift(newExpense);
+            renderTable();
+            closeModal();
+        }
+
+        function deleteExpense(id) {
+            if (confirm('이 항목을 삭제하시겠습니까?')) {
+                expenses = expenses.filter(e => e.id !== id);
+                renderTable();
+            }
+        }
+
+        function toggleCheck(id) {
+            const expense = expenses.find(e => e.id === id);
+            if (expense) {
+                expense.checked = !expense.checked;
+            }
+        }
+
+        function toggleAllChecks() {
+            const checked = document.getElementById('selectAll').checked;
+            expenses.forEach(e => e.checked = checked);
+            renderTable();
+        }
+
+        function setDateRange(range) {
+            const today = new Date();
+            let startDate, endDate;
+
+            switch(range) {
+                case 'today':
+                    startDate = endDate = today;
+                    break;
+                case 'thisWeek':
+                    startDate = new Date(today.setDate(today.getDate() - today.getDay()));
+                    endDate = new Date();
+                    break;
+                case 'thisMonth':
+                    startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                    endDate = new Date();
+                    break;
+                case 'lastWeek':
+                    endDate = new Date(today.setDate(today.getDate() - today.getDay() - 1));
+                    startDate = new Date(endDate);
+                    startDate.setDate(endDate.getDate() - 6);
+                    break;
+                case 'lastMonth':
+                    startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                    endDate = new Date(today.getFullYear(), today.getMonth(), 0);
+                    break;
+                case 'all':
+                    document.getElementById('startDate').value = '';
+                    document.getElementById('endDate').value = '';
+                    return;
+            }
+
+            document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+            document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+        }
+
+        function applyDateFilter() {
+            // 실제 필터링 기능은 여기서 구현
+            alert('날짜 필터가 적용되었습니다.');
+            closeDateModal();
+        }
+
+        // Close modals when clicking outside
+        document.getElementById('addModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.getElementById('dateModal').addEventListener('click', function(e) {
+            if (e.target === this) closeDateModal();
+        });
+
+        // Initialize
+        renderTable();
+    </script>
+</body>
+</html>

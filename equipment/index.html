@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>물품 관리</title>
+  <style>
+    :root {
+      --bg: #f1f3f6;
+      --panel: #ffffff;
+      --line: #d4d9e0;
+      --head: #eceff3;
+      --text: #252b35;
+      --muted: #5e6776;
+      --primary: #4b5563;
+      --danger: #68717e;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Malgun Gothic", "Segoe UI", sans-serif;
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .title {
+      margin: 0 0 12px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .view {
+      display: none;
+      gap: 12px;
+    }
+
+    .view.is-active {
+      display: grid;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .panel h2 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    input, select, button {
+      height: 36px;
+      border: 1px solid #bcc3ce;
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 13px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      border: 1px solid var(--primary);
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+      height: 34px;
+      padding: 0 12px;
+      font-weight: 600;
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--primary);
+    }
+
+    .btn.danger {
+      background: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
+
+    th {
+      background: var(--head);
+      font-weight: 700;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .tag {
+      display: inline-block;
+      border: 1px solid #c4cad4;
+      background: #f4f6f8;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .row { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1 class="title">물품 정보 / 위치 관리</h1>
+
+    <section id="view-list" class="view is-active">
+      <div class="panel">
+        <h2>조회 조건</h2>
+        <div class="row">
+          <label class="field">물품명
+            <input type="text" placeholder="예: 노트북" />
+          </label>
+          <label class="field">분류
+            <select>
+              <option>전체</option>
+              <option>전자기기</option>
+              <option>사무용품</option>
+              <option>비품</option>
+            </select>
+          </label>
+          <label class="field">위치
+            <select>
+              <option>전체</option>
+              <option>본관 2층</option>
+              <option>창고 A</option>
+              <option>회의실 1</option>
+            </select>
+          </label>
+          <label class="field">상태
+            <select>
+              <option>전체</option>
+              <option>정상</option>
+              <option>수리중</option>
+              <option>폐기예정</option>
+            </select>
+          </label>
+        </div>
+        <div class="actions">
+          <button class="btn" type="button">조회</button>
+          <button class="btn secondary" id="open-create" type="button">등록</button>
+          <button class="btn secondary" id="open-edit" type="button">수정</button>
+          <button class="btn danger" type="button">삭제</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>물품 목록</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="center" style="width:54px;">선택</th>
+                <th class="center" style="width:60px;">No</th>
+                <th style="width:140px;">물품코드</th>
+                <th style="width:220px;">물품명</th>
+                <th style="width:120px;">분류</th>
+                <th class="center" style="width:90px;">수량</th>
+                <th style="width:140px;">위치</th>
+                <th class="center" style="width:100px;">상태</th>
+                <th class="center" style="width:130px;">구매일</th>
+                <th>비고</th>
+              </tr>
+            </thead>
+            <tbody id="equipment-body">
+              <tr data-code="EQ-2026-001" data-name="노트북 Dell 14" data-category="전자기기" data-qty="12" data-location="본관 2층" data-status="정상" data-date="2026-01-15" data-note="교육실 대여용">
+                <td class="center"><input type="radio" name="selectedItem" /></td>
+                <td class="center">1</td>
+                <td>EQ-2026-001</td>
+                <td>노트북 Dell 14</td>
+                <td>전자기기</td>
+                <td class="center">12</td>
+                <td>본관 2층</td>
+                <td class="center"><span class="tag">정상</span></td>
+                <td class="center">2026-01-15</td>
+                <td>교육실 대여용</td>
+              </tr>
+              <tr data-code="EQ-2026-014" data-name="빔프로젝터 EPSON" data-category="전자기기" data-qty="3" data-location="회의실 1" data-status="수리중" data-date="2025-09-08" data-note="램프 교체 예정">
+                <td class="center"><input type="radio" name="selectedItem" /></td>
+                <td class="center">2</td>
+                <td>EQ-2026-014</td>
+                <td>빔프로젝터 EPSON</td>
+                <td>전자기기</td>
+                <td class="center">3</td>
+                <td>회의실 1</td>
+                <td class="center"><span class="tag">수리중</span></td>
+                <td class="center">2025-09-08</td>
+                <td>램프 교체 예정</td>
+              </tr>
+              <tr data-code="EQ-2024-099" data-name="접이식 테이블" data-category="비품" data-qty="20" data-location="창고 A" data-status="정상" data-date="2024-03-02" data-note="행사 운영용">
+                <td class="center"><input type="radio" name="selectedItem" /></td>
+                <td class="center">3</td>
+                <td>EQ-2024-099</td>
+                <td>접이식 테이블</td>
+                <td>비품</td>
+                <td class="center">20</td>
+                <td>창고 A</td>
+                <td class="center"><span class="tag">정상</span></td>
+                <td class="center">2024-03-02</td>
+                <td>행사 운영용</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-create" class="view">
+      <div class="panel">
+        <h2>물품 등록 화면</h2>
+        <div class="row">
+          <label class="field">물품코드
+            <input type="text" placeholder="예: EQ-2026-100" />
+          </label>
+          <label class="field">물품명
+            <input type="text" placeholder="예: 모니터 27인치" />
+          </label>
+          <label class="field">분류
+            <select>
+              <option>전자기기</option>
+              <option>사무용품</option>
+              <option>비품</option>
+            </select>
+          </label>
+          <label class="field">수량
+            <input type="number" placeholder="0" />
+          </label>
+        </div>
+        <div class="row">
+          <label class="field">위치
+            <select>
+              <option>본관 2층</option>
+              <option>창고 A</option>
+              <option>회의실 1</option>
+            </select>
+          </label>
+          <label class="field">상태
+            <select>
+              <option>정상</option>
+              <option>수리중</option>
+              <option>폐기예정</option>
+            </select>
+          </label>
+          <label class="field">구매일
+            <input type="date" />
+          </label>
+          <label class="field">비고
+            <input type="text" placeholder="메모 입력" />
+          </label>
+        </div>
+        <div class="actions">
+          <button class="btn" type="button">등록 저장</button>
+          <button class="btn secondary back-to-list" type="button">목록으로</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>위치 등록</h2>
+        <div class="row">
+          <label class="field">위치코드
+            <input type="text" placeholder="예: LOC-001" />
+          </label>
+          <label class="field">위치명
+            <input type="text" placeholder="예: 본관 2층 창고" />
+          </label>
+          <label class="field">담당자
+            <input type="text" placeholder="예: 홍길동" />
+          </label>
+          <label class="field">연락처
+            <input type="text" placeholder="예: 010-1234-5678" />
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-edit" class="view">
+      <div class="panel">
+        <h2>물품 수정 화면</h2>
+        <div class="row">
+          <label class="field">물품코드
+            <input id="edit-code" type="text" />
+          </label>
+          <label class="field">물품명
+            <input id="edit-name" type="text" />
+          </label>
+          <label class="field">분류
+            <select id="edit-category">
+              <option>전자기기</option>
+              <option>사무용품</option>
+              <option>비품</option>
+            </select>
+          </label>
+          <label class="field">수량
+            <input id="edit-qty" type="number" />
+          </label>
+        </div>
+        <div class="row">
+          <label class="field">위치
+            <select id="edit-location">
+              <option>본관 2층</option>
+              <option>창고 A</option>
+              <option>회의실 1</option>
+            </select>
+          </label>
+          <label class="field">상태
+            <select id="edit-status">
+              <option>정상</option>
+              <option>수리중</option>
+              <option>폐기예정</option>
+            </select>
+          </label>
+          <label class="field">구매일
+            <input id="edit-date" type="date" />
+          </label>
+          <label class="field">비고
+            <input id="edit-note" type="text" />
+          </label>
+        </div>
+        <div class="actions">
+          <button class="btn" type="button">수정 저장</button>
+          <button class="btn danger" type="button">삭제</button>
+          <button class="btn secondary back-to-list" type="button">목록으로</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const views = {
+      list: document.getElementById("view-list"),
+      create: document.getElementById("view-create"),
+      edit: document.getElementById("view-edit")
+    };
+
+    function showView(name) {
+      Object.values(views).forEach((view) => view.classList.remove("is-active"));
+      views[name].classList.add("is-active");
+    }
+
+    function getSelectedRow() {
+      const checked = document.querySelector('input[name="selectedItem"]:checked');
+      return checked ? checked.closest("tr") : null;
+    }
+
+    function fillEditForm(row) {
+      document.getElementById("edit-code").value = row.dataset.code || "";
+      document.getElementById("edit-name").value = row.dataset.name || "";
+      document.getElementById("edit-category").value = row.dataset.category || "전자기기";
+      document.getElementById("edit-qty").value = row.dataset.qty || "";
+      document.getElementById("edit-location").value = row.dataset.location || "본관 2층";
+      document.getElementById("edit-status").value = row.dataset.status || "정상";
+      document.getElementById("edit-date").value = row.dataset.date || "";
+      document.getElementById("edit-note").value = row.dataset.note || "";
+    }
+
+    document.getElementById("open-create").addEventListener("click", () => {
+      showView("create");
+    });
+
+    document.getElementById("open-edit").addEventListener("click", () => {
+      const selected = getSelectedRow();
+      if (!selected) {
+        alert("수정할 항목을 목록에서 먼저 선택하세요.");
+        return;
+      }
+      fillEditForm(selected);
+      showView("edit");
+    });
+
+    document.querySelectorAll(".back-to-list").forEach((button) => {
+      button.addEventListener("click", () => showView("list"));
+    });
+  </script>
+</body>
+</html>

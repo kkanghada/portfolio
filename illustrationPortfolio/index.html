@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fewer - 건축 스튜디오</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 1rem 2rem;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-size: 0.95rem;
+            transition: opacity 0.3s;
+        }
+
+        .nav-menu a:hover {
+            opacity: 0.6;
+        }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: #333;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            background: #f9f9f9;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .hero-text h1 {
+            font-size: 2rem;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .hero-projects {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .hero-project-card {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .hero-project-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .hero-project-image {
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%; /* 1:1 정사각형 비율 */
+            background: #e0e0e0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-bottom: 0.8rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-project-title {
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 0.3rem;
+        }
+
+        .hero-project-tags {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-tag {
+            font-size: 0.75rem;
+            color: #666;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #999;
+        }
+
+        /* Projects Grid */
+        .projects {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+
+        .project-card {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: #e0e0e0;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.85rem;
+            color: #666;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #666;
+        }
+
+        /* Footer */
+        footer {
+            background: #f9f9f9;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            font-size: 0.9rem;
+            color: #666;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: #333;
+        }
+
+        .copyright {
+            max-width: 1400px;
+            margin: 2rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-projects {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transition: left 0.3s;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero-text h1 {
+                font-size: 1.5rem;
+            }
+
+            header {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .projects {
+                padding: 2rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 1.2rem;
+            }
+
+            .project-title {
+                font-size: 1.1rem;
+            }
+
+            .hero-projects {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Placeholder image styles */
+        .img-placeholder-1 {
+            background-image: url('images/01.jpg');
+        }
+
+        .img-placeholder-2 {
+            background-image: url('images/02.png');
+        }
+
+        .img-placeholder-3 {
+            background-image: url('images/03.jpg');
+        }
+
+        .img-placeholder-4 {
+            background-image: url('images/04.jpg');
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">개인 일러스트 포트폴리오</div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#projects">프로젝트</a></li>
+                <li><a href="#team">팀</a></li>
+                <li><a href="#studio">스튜디오</a></li>
+                <li><a href="#blog">블로그</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>일상의 풍경과 감정을 기록하며, 사람과 공간의 관계를 그려내는 작업들을 모았습니다.</h1>
+            </div>
+            <div class="hero-projects">
+                <article class="hero-project-card">
+                    <div class="hero-project-image img-placeholder-1"></div>
+                    <h3 class="hero-project-title">SAAG</h3>
+                    <div class="hero-project-tags">
+                        <span class="hero-tag">인보라</span>
+                        <span class="hero-tag">프로젝트</span>
+                    </div>
+                </article>
+
+                <article class="hero-project-card">
+                    <div class="hero-project-image img-placeholder-2"></div>
+                    <h3 class="hero-project-title">런던 필드</h3>
+                    <div class="hero-project-tags">
+                        <span class="hero-tag">기간집</span>
+                        <span class="hero-tag">프로젝트</span>
+                    </div>
+                </article>
+
+                <article class="hero-project-card">
+                    <div class="hero-project-image img-placeholder-3"></div>
+                    <h3 class="hero-project-title">Pier 10</h3>
+                    <div class="hero-project-tags">
+                        <span class="hero-tag">인보라</span>
+                        <span class="hero-tag">프로젝트</span>
+                    </div>
+                </article>
+
+                <article class="hero-project-card">
+                    <div class="hero-project-image img-placeholder-4"></div>
+                    <h3 class="hero-project-title">Ørestad</h3>
+                    <div class="hero-project-tags">
+                        <span class="hero-tag">프로젝트</span>
+                        <span class="hero-tag">자조직</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>© Agard & Bolding</h3>
+            </div>
+            <div class="footer-section">
+                <h3>연락처</h3>
+                <p>Oliefabriksvej 29, 43, 2770</p>
+                <p>Kastrup, Denmark</p>
+                <p><br></p>
+                <p><a href="mailto:info@a&barchitecture.com">info@a&barchitecture.com</a></p>
+                <p>+1234567890</p>
+            </div>
+            <div class="footer-section">
+                <h3>팔로우하세요</h3>
+                <p><a href="#">@agardandbolding</a></p>
+                <p><br></p>
+                <p><a href="#">Facebook / Instagram</a></p>
+                <p><a href="#">LinkedIn / Google</a></p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>Wordpress.com에서 무료로 웹사이트 만들기</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (!navMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

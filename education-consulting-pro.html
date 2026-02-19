@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDU Consulting - 교육의 미래를 설계합니다</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a2463;
+            --secondary: #3e92cc;
+            --accent: #1e5a8e;
+            --bg-light: #f0f6fc;
+            --bg-dark: #061b3a;
+            --text-primary: #1a1a2e;
+            --text-secondary: #5a6c7d;
+            --border: #d1e3f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 36, 99, 0.85) 0%, rgba(30, 90, 142, 0.75) 50%, rgba(62, 146, 204, 0.65) 100%);
+        }
+
+        /* Slide backgrounds using gradients and patterns */
+        .hero-slide:nth-child(1) {
+            background-image: url('olivergotting-library-5641389_1280.jpg');
+            /* background: linear-gradient(135deg, #0a2463 0%, #1e5a8e 50%, #3e92cc 100%); */
+        }
+
+        .hero-slide:nth-child(2) {
+            background-image: url('pexels-books-1281581_1280.jpg');
+            /* background: linear-gradient(45deg, #061b3a 0%, #0a2463 50%, #2c5f96 100%); */
+        }
+
+        .hero-slide:nth-child(3) {
+            background-image: url('t_tide-books-5433432_1280.jpg');
+            /* background: linear-gradient(225deg, #1e5a8e 0%, #0a2463 50%, #061b3a 100%); */
+        }
+
+        /* Add geometric patterns to slides */
+        .hero-slide:nth-child(1)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(62, 146, 204, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(62, 146, 204, 0.15) 0%, transparent 50%);
+        }
+
+        .hero-slide:nth-child(2)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(45deg, rgba(62, 146, 204, 0.05) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(62, 146, 204, 0.05) 25%, transparent 25%);
+            background-size: 60px 60px;
+        }
+
+        .hero-slide:nth-child(3)::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 70% 30%, rgba(62, 146, 204, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 30% 70%, rgba(30, 90, 142, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            padding: 0 4%;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .slide-indicators {
+            position: absolute;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 3;
+        }
+
+        .slide-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slide-indicator.active {
+            background: rgba(255, 255, 255, 0.9);
+            width: 40px;
+            border-radius: 6px;
+        }
+
+        .hero-tagline {
+            font-size: 1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5.5rem;
+            color: #fff;
+            font-weight: 300;
+            line-height: 1.15;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        .hero h1 .emphasis {
+            font-weight: 700;
+            font-style: italic;
+            color: var(--secondary);
+        }
+
+        .hero-description {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.7s forwards;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: var(--secondary);
+            color: #fff;
+            padding: 1.2rem 3rem;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            border: 2px solid var(--secondary);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.9s forwards;
+        }
+
+        .hero-cta:hover {
+            background: transparent;
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 8rem 4%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            color: var(--primary);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .section-description {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Services Grid */
+        .services-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+        }
+
+        .service-card {
+            border: 1px solid var(--border);
+            padding: 4rem 3rem;
+            position: relative;
+            transition: all 0.5s ease;
+            background: #fff;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--bg-light);
+            transition: width 0.5s ease;
+            z-index: 0;
+        }
+
+        .service-card:hover::before {
+            width: 100%;
+        }
+
+        .service-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            color: var(--accent);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            opacity: 0.6;
+        }
+
+        .service-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .service-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s ease;
+        }
+
+        .service-link:hover {
+            transform: translateX(5px);
+        }
+
+        /* Insights Section */
+        .insights-section {
+            background: var(--bg-dark);
+            color: #fff;
+        }
+
+        .insights-section .section-label {
+            color: var(--accent);
+        }
+
+        .insights-section .section-title {
+            color: #fff;
+        }
+
+        .insights-section .section-description {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .insights-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        .insight-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--secondary);
+        }
+
+        .insight-image {
+            height: 250px;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .insight-card:nth-child(1) .insight-image {
+            background-image: url('notebook1.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .insight-card:nth-child(2) .insight-image {
+            background-image: url('notebook2.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .insight-card:nth-child(3) .insight-image {
+            background-image: url('notebook3.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .insight-content {
+            padding: 2rem;
+        }
+
+        .insight-category {
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+        }
+
+        .insight-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .insight-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* About Section */
+        .about-section {
+            background: var(--bg-light);
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: start;
+        }
+
+        .about-text h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            line-height: 1.3;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.9;
+            font-size: 1.05rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background: #fff;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Process Section */
+        .process-timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+            transform: translateX(-50%);
+        }
+
+        .process-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 5rem;
+            position: relative;
+        }
+
+        .process-item:nth-child(even) .process-content {
+            grid-column: 2;
+        }
+
+        .process-item:nth-child(even) .process-number-container {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .process-number-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .process-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+
+        .process-content h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .process-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .contact-section .section-label {
+            color: var(--accent);
+        }
+
+        .contact-section .section-title {
+            color: #fff;
+        }
+
+        .contact-section .section-description {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            margin-top: 3rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            background: var(--secondary);
+            color: #fff;
+            padding: 1.2rem 3.5rem;
+            border: 2px solid var(--secondary);
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+        }
+
+        .submit-btn:hover {
+            background: transparent;
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 4rem 4%;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .footer-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .footer-description {
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-section h4 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .stats-grid {
+                margin-top: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            section {
+                padding: 5rem 4%;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .process-item {
+                grid-template-columns: 1fr;
+                margin-bottom: 3rem;
+            }
+
+            .process-timeline::before {
+                display: none;
+            }
+
+            .process-number-container {
+                display: none;
+            }
+
+            .process-item:nth-child(even) .process-content {
+                grid-column: 1;
+            }
+
+            .process-item:nth-child(even) .process-number-container {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav>
+            <div class="logo">EDU Consulting</div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#insights">Insights</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-slides">
+            <div class="hero-slide active"></div>
+            <div class="hero-slide"></div>
+            <div class="hero-slide"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-tagline">Education Excellence</div>
+            <h1>교육의 미래를<br><span class="emphasis">설계</span>합니다</h1>
+            <p class="hero-description">전문적인 교육 컨설팅으로 개인과 조직의 성장을 돕습니다. 체계적인 분석과 전략적 접근으로 최적의 학습 경로를 제시합니다.</p>
+            <a href="#contact" class="hero-cta">상담 시작하기</a>
+        </div>
+        <div class="slide-indicators">
+            <div class="slide-indicator active" data-slide="0"></div>
+            <div class="slide-indicator" data-slide="1"></div>
+            <div class="slide-indicator" data-slide="2"></div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="section-header">
+            <div class="section-label">Our Services</div>
+            <h2 class="section-title">전문 컨설팅 서비스</h2>
+            <p class="section-description">개인별 맞춤형 솔루션부터 조직 전체의 교육 전략까지, 포괄적인 컨설팅 서비스를 제공합니다.</p>
+        </div>
+        <div class="services-container">
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-number">01</div>
+                    <h3>학습 컨설팅</h3>
+                    <p>개인의 학습 스타일과 목표를 분석하여 최적화된 학습 계획을 수립합니다. 효율적인 학습 방법론과 시간 관리 전략을 제공합니다.</p>
+                    <a href="#" class="service-link">자세히 보기 →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-number">02</div>
+                    <h3>진로 설계</h3>
+                    <p>체계적인 진로 탐색과 직업 분석을 통해 미래를 준비합니다. 개인의 강점과 시장 트렌드를 반영한 맞춤형 진로 로드맵을 제시합니다.</p>
+                    <a href="#" class="service-link">자세히 보기 →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-number">03</div>
+                    <h3>입시 전략</h3>
+                    <p>대학 입시부터 대학원까지 전략적인 입시 준비를 지원합니다. 지원 전략 수립, 자기소개서 첨삭, 면접 준비까지 전 과정을 관리합니다.</p>
+                    <a href="#" class="service-link">자세히 보기 →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-number">04</div>
+                    <h3>커리어 코칭</h3>
+                    <p>취업 준비부터 이직, 승진까지 커리어 전환의 모든 단계를 돕습니다. 이력서 작성, 포트폴리오 구성, 면접 스킬 향상을 지원합니다.</p>
+                    <a href="#" class="service-link">자세히 보기 →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Insights Section -->
+    <section id="insights" class="insights-section">
+        <div class="section-header">
+            <div class="section-label">Insights</div>
+            <h2 class="section-title">최신 교육 인사이트</h2>
+            <p class="section-description">교육 트렌드와 산업 동향을 분석한 전문 리포트를 제공합니다.</p>
+        </div>
+        <div class="insights-grid">
+            <div class="insight-card">
+                <div class="insight-image"></div>
+                <div class="insight-content">
+                    <div class="insight-category">Research</div>
+                    <h3>2026 교육 트렌드 리포트</h3>
+                    <p>AI와 디지털 전환이 교육 시장에 미치는 영향과 대응 전략을 분석합니다.</p>
+                </div>
+            </div>
+            <div class="insight-card">
+                <div class="insight-image"></div>
+                <div class="insight-content">
+                    <div class="insight-category">Case Study</div>
+                    <h3>성공적인 진로 전환 사례</h3>
+                    <p>체계적인 컨설팅을 통해 성공적으로 커리어를 전환한 실제 사례를 공유합니다.</p>
+                </div>
+            </div>
+            <div class="insight-card">
+                <div class="insight-image"></div>
+                <div class="insight-content">
+                    <div class="insight-category">Strategy</div>
+                    <h3>효율적인 학습 방법론</h3>
+                    <p>과학적으로 검증된 학습 전략과 실천 가능한 방법을 제시합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="section-header">
+            <div class="section-label">About Us</div>
+            <h2 class="section-title">신뢰할 수 있는 파트너</h2>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>10년 이상의 전문성과 경험</h3>
+                <p>EDU Consulting은 2014년 설립 이후 교육 컨설팅 분야에서 독보적인 전문성을 구축해왔습니다. 검증된 방법론과 풍부한 경험을 바탕으로 최상의 결과를 만들어냅니다.</p>
+                <p>각 분야 최고의 전문가들이 협력하여 개인과 조직의 특성에 맞춘 맞춤형 솔루션을 제공합니다. 획일화된 접근이 아닌, 고객의 목표와 상황에 최적화된 전략을 수립합니다.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">1,400+</div>
+                    <div class="stat-label">성공 사례</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">고객 만족도</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">전문 컨설턴트</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">업력 (년)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process">
+        <div class="section-header">
+            <div class="section-label">Our Process</div>
+            <h2 class="section-title">체계적인 컨설팅 프로세스</h2>
+            <p class="section-description">검증된 4단계 프로세스를 통해 최적의 결과를 도출합니다.</p>
+        </div>
+        <div class="process-timeline">
+            <div class="process-item">
+                <div class="process-content">
+                    <h3>상담 및 분석</h3>
+                    <p>무료 초기 상담을 통해 현재 상황과 목표를 파악합니다. 심층 인터뷰와 데이터 분석으로 정확한 니즈를 도출합니다.</p>
+                </div>
+                <div class="process-number-container">
+                    <div class="process-number">1</div>
+                </div>
+            </div>
+            <div class="process-item">
+                <div class="process-number-container">
+                    <div class="process-number">2</div>
+                </div>
+                <div class="process-content">
+                    <h3>전략 수립</h3>
+                    <p>체계적인 분석 결과를 바탕으로 맞춤형 전략을 수립합니다. 단계별 목표와 실행 계획을 구체화합니다.</p>
+                </div>
+            </div>
+            <div class="process-item">
+                <div class="process-content">
+                    <h3>실행 지원</h3>
+                    <p>전략 실행 과정을 단계별로 지원합니다. 정기적인 점검과 피드백으로 계획의 효과를 극대화합니다.</p>
+                </div>
+                <div class="process-number-container">
+                    <div class="process-number">3</div>
+                </div>
+            </div>
+            <div class="process-item">
+                <div class="process-number-container">
+                    <div class="process-number">4</div>
+                </div>
+                <div class="process-content">
+                    <h3>성과 관리</h3>
+                    <p>목표 달성 여부를 모니터링하고 지속적인 개선 방안을 제시합니다. 장기적인 성장을 위한 관리 체계를 구축합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="section-header">
+            <div class="section-label">Contact Us</div>
+            <h2 class="section-title">상담 신청</h2>
+            <p class="section-description">교육과 커리어의 새로운 가능성을 함께 만들어가겠습니다.</p>
+        </div>
+        <div class="contact-container">
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">이름</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">연락처</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="service">관심 서비스</label>
+                    <input type="text" id="service" name="service" placeholder="예: 학습 컨설팅, 진로 설계 등">
+                </div>
+                <div class="form-group">
+                    <label for="message">문의 내용</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">상담 신청하기</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">EDU Consulting</div>
+                <p class="footer-description">전문적인 교육 컨설팅으로 개인과 조직의 성장을 지원합니다. 체계적인 분석과 맞춤형 전략으로 최적의 결과를 만들어냅니다.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul class="footer-links">
+                    <li><a href="#">학습 컨설팅</a></li>
+                    <li><a href="#">진로 설계</a></li>
+                    <li><a href="#">입시 전략</a></li>
+                    <li><a href="#">커리어 코칭</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#">회사 소개</a></li>
+                    <li><a href="#">인사이트</a></li>
+                    <li><a href="#">채용 정보</a></li>
+                    <li><a href="#">파트너십</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li>서울특별시 강남구</li>
+                    <li>Tel : 02-1234-5678</li>
+                    <li>Email: info@educonsulting.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2014-2026 EDU Consulting. All rights reserved. | <a href="#" style="color: rgba(255,255,255,0.7)">개인정보처리방침</a> | <a href="#" style="color: rgba(255,255,255,0.7)">이용약관</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Hero Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.slide-indicator');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        // Auto slide every 5 seconds
+        let slideInterval = setInterval(nextSlide, 5000);
+
+        // Manual slide control
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const navHeight = document.querySelector('.nav-container').offsetHeight;
+                    const targetPosition = target.offsetTop - navHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('상담 신청이 접수되었습니다.\n빠른 시일 내에 연락드리겠습니다.');
+            event.target.reset();
+        }
+
+        // Navbar shadow on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav-container');
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
